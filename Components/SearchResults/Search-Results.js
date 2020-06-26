@@ -4,12 +4,14 @@ import styles from './Search-Results.css'
 import * as CustomTypes from '../../lib/CustomType'
 import SearchResult from '../SearchResult/Search-Result'
 
-export default function SearchResults({ results }) {
+export default function SearchResults({ results, showGiffy }) {
     return (<div className = {styles.container}>
-        {results.map( (result) => <SearchResult key = {result.thumbnail} result = {result}/>)}
+        {results.map( (result) => <SearchResult key = {result.thumbnail} result = {result} onClick={ () => showGiffy(result)}/>)}
     </div>)
 }
 
  SearchResults.propTypes = {
-     result: PropTypes.arrayOf(CustomTypes.SearchResult )
+     results: PropTypes.arrayOf(CustomTypes.SearchResult ),
+     showGiffy: PropTypes.func.isRequired
+
  }

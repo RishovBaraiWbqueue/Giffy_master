@@ -12,18 +12,33 @@ import { SEARCH_PERFORMED } from '../Actions/Search/SearchTypes'
     function* doSearch() {
         try {
             const { currentOffSet, searchTerm } = yield select(selectSearchState)
+            
+            const params = {
+                apiKey,
+                q:searchTerm,
+                limit:50,
+                offset: currentOffSet
+            };
+            
+            let endPoint;
+            
+            if (searchTerm === undefined ){
+                 endPoint = 'trending'
+            }
+            else {
+                 endPoint = 'search'
+                params.q = searchTerm
+            }
+           
             const searchResult = yield call(
+                
                 axios.get,
-                'http://api.giphy.com/v1/gifs/search',
+                `http://api.giphy.com/v1/gifs/${endPoint}`,
                 {
-                    params: {
-                        apiKey,
-                        q:searchTerm,
-                        limit:50,
-                        offset: currentOffSet
-                    }
+                    params,
                 }
             );
+            
             yield put(searchSuccess(searchResult.data.data))
         } catch (e) {
             yield put(searchError())

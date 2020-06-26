@@ -8,14 +8,15 @@ import RootReducer from './Reducers'
 import logger from 'redux-logger'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import searchSaga from './Sagas/Search'
+import randomSaga from './Sagas/Random'
 import createSagaMiddleware from 'redux-saga'
 import { Route, Router } from 'react-router'
 import { routerMiddleware } from 'react-router-redux'
 import { ConnectedRouter } from 'connected-react-router'
 import  history  from './history'
 import SearchPage from './Components/Pages/Search/Search.container'
-import Trending from './Components/Pages/Trending/TrendingPage'
-import Random from './Components/Pages/Random/RandomPage'
+import Trending from './Components/Pages/Trending/TrendingPage.container'
+import Random from './Components/Pages/Random/Random.container'
 
 const saga = createSagaMiddleware();
  
@@ -26,7 +27,7 @@ const store = createStore(RootReducer,
         saga)))
 
 saga.run(searchSaga);
-console.log(ConnectedRouter)
+saga.run(randomSaga);
 
 ReactDOM.render(
     <Provider store={store}>
